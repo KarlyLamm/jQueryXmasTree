@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Final Project - Karly Lamm</title>
+
+</head>
+<body>
+
+<h1>Welcome to the Holiday Tree Simulator</h1>
+<ul>
+  <li> Click a green branch (<font color=green>^</font>) to change it into a red ornament
+  <li> Click a red ornament (<font color=red>O</font>) to turn it into an unlit light (only when power is off)
+  <li> Click an unlit light (<font color=gray>*</font>) to turn it into a green branch (only when power is off)
+</ul>
+
+<hr>
+
+<!-- use this div tag for your tree. Note that its contents are
+        * centered
+        * in a "fixed" size font, which should make the dynamic changes smoother
+-->
+<div id=treeArea align=center style="font-family: Courier">
+
+</div>
+
+<hr>
+
+Tree Size:<input type=text id=treeSize></input>
+Trunk Size:<input type=text id=trunkSize></input>
+<button id=new>New Tree</button><br>
+Power: <span id=powerVal>OFF</span>
+<button id=power>Toggle Power</button>
+</body>
+
+<script src=http://code.jquery.com/jquery.min.js type=text/javascript></script>
+<script type = "text/javascript">
+// put your javascrip here (or in a separate file and add an src attribute to this script tag)
+/*
+Author: Karly Lamm
+Due Date: December 11,2020
+Computer Science Final Project
+ */
+
+//------------DEFAULT TREE------------------
+$("#treeArea").append('<font id=treeBranches style="font-family: Courier" color="green"></font>');
+$("#treeArea").append('<font id=treeTrunk style="font-family: Courier" color="brown"></font>');
+var treeSize = 8;
+var trunkSize = 3;
+var HTMLtree = $("#treeBranches");
+var HTMLtrunk = $("#treeTrunk")
+
+
+	//--------Builds tree pyrimad----------
+for (var i=1 ; i<=treeSize ; i++)
+
+{
+	for (var j=1 ; j<=(2*i-1) ; j++)
+		{
+		HTMLtree.append("<font class='branches'>^</font>");
+		}
+	$("#treeBranches").append("<br>");
+}
+
+     //---------Builds tree trunk----------
+for (i=1 ; i<=3 ; i++)
+{
+for (j=1 ; j<=trunkSize ; j++)
+		HTMLtrunk.append("|");
+	HTMLtrunk.append("<br>");
+}
+     //---- Change branches-------------
+function makeOrnament()
+{
+	//green branch to red ornament
+	if ($(this).html()=="^")
+		{
+		$(this).attr("color","red");
+		$(this).html("O");
+		}
+	//Red ornament to unlit Light
+	else if ($(this).html()=="O" && power=="off")
+		{
+		$(this).attr("color","gray");
+		$(this).html("<strong>*</strong>");
+		$(this).attr("class","light")
+		}
+	//Unlit light to green branch
+	else if ($(this).html()=="<strong>*</strong>" && power=="off")
+		{
+		$(this).attr("color","green");
+		$(this).html("^");
+		}
+}
+     
+     //-------Make new holiday tree from user entry---------
+function newTree()
+{
+
+	$("#treeBranches").html("")
+	$("#treeTrunk").html("")
+	
+	treeSize = document.getElementById("treeSize").value;
+	trunkSize = document.getElementById("trunkSize").value;
+
+	//--------Builds tree pyrimad----------
+for (var i=1 ; i<=treeSize ; i++)
+
+{
+	for (var j=1 ; j<=(2*i-1) ; j++)
+		{
+		$("#treeBranches").append("<font class='branches'>^</font>");
+		}
+	$("#treeBranches").append("<br>");
+}
+
+     //---------Builds tree trunk----------
+for (i=1 ; i<=3 ; i++)
+{
+for (j=1 ; j<=trunkSize ; j++)
+		$("#treeTrunk").append("|");
+	$("#treeTrunk").append("<br>");
+}
+
+    //----------Change tree branches-----
+	$(".branches").click(makeOrnament);
+}
+     
+//----------Light unlit lights-----------    
+var power="off";
+
+function togglePower()
+{
+	if (power=="off")
+		{
+		$("#powerVal").html("ON");
+		power="on";
+		$(".light").attr("color","yellow");
+		}	
+	else
+		{
+		$("#powerVal").html("OFF");
+		power="off";
+		$(".light").attr("color","gray");
+		}
+		
+}
+
+//-----------------Button actions-----------------
+//turn on power
+$("#power").click(togglePower);
+//change branches
+$(".branches").click(makeOrnament);
+//make new tree
+$("#new").click(newTree);
+</script>
+
+</html>
